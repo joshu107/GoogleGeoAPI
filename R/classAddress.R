@@ -9,3 +9,9 @@ address <- function(street, housenumber, state) {
     class = 'address'
   )
 }
+
+print.address <- function(x, ...) {
+  cat('Address:\n')
+  cat('---\n')
+  cat(paste(paste(x$street, x$housenumber, sep = ' '), x$state, sep = ', '))
+}
