@@ -2,9 +2,9 @@
 % Please edit documentation in R/classAddress.R
 \name{adrs}
 \alias{adrs}
-\title{Lorem ipsulum}
+\title{A S3 class to represent the address for geocoding}
 \usage{
-adrs(street, housenumber, state)
+adrs(street, housenumber, state, zip)
 }
 \arguments{
 \item{street}{A string}
@@ -12,8 +12,11 @@ adrs(street, housenumber, state)
 \item{housenumber}{A string}
 
 \item{state}{A string}
+
+\item{zip}{A string}
 }
 \description{
-Lorem ipsulum
+The S3 class address (\code{adrs}) is used to store the street, housenumber,
+zip code and the state of an \code{adrs} object.
 }
 
