@@ -1,11 +1,14 @@
-#'Runs Google Geo API on \code{\link{adrs}} or \code{\link{coord}} object.
+#'Runs Google Geo API.
+#'
+#'This function runs Runs Google Geo API on \code{\link{adrs}} or
+#'\code{\link{coord}} object.
 #'
 #'@param x a \code{\link{adrs}} or \code{\link{coord}} object
 #'
-#'@return JSON object returned by Google Geo API.
+#'@return \code{googlegeo_api} object that contains result returned by Google
+#'Geo API.
+#'@export
 googlegeo_api <- function(x) {
-'Generates an object of the class googlegeo_api.'
-
   suppressMessages(devtools::use_package('httr'))
   suppressMessages(devtools::use_package('jsonlite'))
 
@@ -54,16 +57,31 @@ print.googlegeo_api <- function(x) {
 #'describes the process of finding the coordinates to a given address
 #'(the address which belongs to given coordinates).
 #'
-#'@param x Object of class \code{googlegeo_api}.
+#'@param x Object of class \code{\link{adrs}} or \code{\link{coord}} (or
+#'  \code{googlegeo_api}).
 #'
 #'@examples
 #'x <- adrs('Linköping Universitetet, Linköping')
-#'y <- googlegeo_api(x)
+#'geocode(x)
+#'y <- coord(58.40208, 15.57901)
 #'geocode(y)
 #'
 #'@export
 geocode <- function(x) UseMethod('geocode', x)
 
+#'(Reverse) Geocoding of an address (coordinates).
+#'
+#'This function returns the result of (reverse) geocoding. (Reverse) Geocoding
+#'describes the process of finding the coordinates to a given address
+#'(the address which belongs to given coordinates).
+#'
+#'@param x Object of class \code{googlegeo_api}.
+#'
+#'@examples
+#'x <- adrs('Linköping Universitetet, Linköping')
+#'geocode(googlegeo_api(x))
+#'y <- coord(58.40208, 15.57901)
+#'geocode(googlegeo_api(y))
 #'@export
 geocode.googlegeo_api <- function(x) {
   if(x$type == 'geo' && x$content$status != 'ZERO_RESULTS') {
@@ -82,15 +100,20 @@ geocode.googlegeo_api <- function(x) {
   }
 }
 
+
+#'Geocoding of an address.
+#'
+#'This function returns the result of geocoding. Geocoding
+#'describes the process of finding the coordinates to a given address.
+#'
+#'@param x Object of class \code{\link{adrs}}.
+#'
+#'@examples
+#'x <- adrs('Linköping Universitetet, Linköping')
+#'geocode(x)
+#'
 #'@export
 geocode.adrs <- function(address) {
-  # Returns coord object.
-  #
-  # Args:
-  #   address: adrs object with address
-  #
-  # Returns:
-  #   A coord object processed via Google Geo API.
   jsonObject <- googlegeo_api(address)
 
   coordObject <- geocode(jsonObject)
@@ -98,15 +121,22 @@ geocode.adrs <- function(address) {
   return(coordObject)
 }
 
+#'Reverse geocoding of coordinates.
+#'
+#'This function returns the result of reverse geocoding. Reverse geocoding
+#'describes the process of finding the address which belongs to given
+#'coordinates.
+#'
+#'@param x Object of class \code{\link{coord}}.
+#'
+#'@examples
+#'x <- adrs('Linköping Universitetet, Linköping')
+#'geocode(x)
+#'y <- coord(58.40208, 15.57901)
+#'geocode(y)
+#'
 #'@export
 geocode.coord <- function(coordinates) {
-  # Returns coord object.
-  #
-  # Args:
-  #   address: adrs object with address
-  #
-  # Returns:
-  #   A coord object processed via Google Geo API.
   jsonObject <- googlegeo_api(coordinates)
 
   adrsObject <- geocode(jsonObject)
