@@ -1,5 +1,5 @@
 # Input parameters --------------------------------------------------------
-context('Checking adrs input parameters:')
+context('adrs input parameters:')
 test_that('Wrong input type:',  {
   expect_that(coord('a', 'b'), throws_error())
   expect_that(coord('a', 50.4), throws_error())
@@ -12,7 +12,7 @@ test_that('Wrong class:', {
 
 # Output ------------------------------------------------------------------
 
-context('Checking adrs output:')
+context('adrs output:')
 test_that('Wrong output:', {
   tmp <- adrs("This is a test")
   expect_that(typeof(tmp), is_a('character'))

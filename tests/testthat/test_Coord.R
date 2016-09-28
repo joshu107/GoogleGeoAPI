@@ -1,5 +1,5 @@
 # Input parameters --------------------------------------------------------
-context('Checking coord input parameters:')
+context('coord input parameters:')
 test_that('Wrong input type:',  {
   expect_that(coord('a', 'b'), throws_error())
   expect_that(coord('a', 50.4), throws_error())
@@ -19,7 +19,7 @@ test_that('Wrong class:', {
 
 
 # Output ------------------------------------------------------------------
-context('Checking coord output:')
+context('coord output:')
 test_that('Wrong output:', {
   tmp <- coord(30.5, -82.0)
   expect_that(typeof(tmp), is_a('character'))
