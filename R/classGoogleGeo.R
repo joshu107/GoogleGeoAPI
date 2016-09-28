@@ -1,40 +1,31 @@
 #'@export
-googlegeo_api <- function(address = NULL, coord = NULL) {
+googlegeo_api <- function(x) {
 'Generates an object of the class googlegeo_api.'
 
-  devtools::use_package('httr')
-  devtools::use_package('jsonlite')
+  suppressMessages(devtools::use_package('httr'))
+  suppressMessages(devtools::use_package('jsonlite'))
 
   type = NULL
 
-  if (!any(missing(address), missing(coord))) {
-    stop('Please specify an adress or coordinates.')
+  if (!any(class(x) == 'adrs', class(x) == 'coord')) {
+    stop('Please specify an object of class adrs or coord.')
   }
 
-  else if (class(address) == 'adrs' && is.null(coord)) {
-    url <- paste('https://maps.googleapis.com/maps/api/geocode/json?address=',
-                 formatting(address),
-                 '&key=AIzaSyBcfnmk2l4u4kDwz3Uq-xlOB_Z9l4OZZTE',
-                 sep = '')
-
-    resp <- httr::GET(url)
-    parsed <- jsonlite::fromJSON(httr::content(resp, "text"), simplifyVector = FALSE)
-    type = 'geo'
-  }
-
-  else if (class(coord) == 'coord' && is.null(address)) {
-    url <- paste('https://maps.googleapis.com/maps/api/geocode/json?latlng=',
-                 formatting(coord),
-                 '&key=AIzaSyBcfnmk2l4u4kDwz3Uq-xlOB_Z9l4OZZTE',
-                 sep = '')
-
-    resp <- httr::GET(url)
-    parsed <- jsonlite::fromJSON(httr::content(resp, "text"), simplifyVector = FALSE)
-    type = 'revgeo'
+  if (class(x) == 'adrs') {
+    type= 'geo'
   }
   else {
-    stop('Test')
+    type = 'rev_geo'
   }
+
+  url <- paste('https://maps.googleapis.com/maps/api/geocode/json?',
+               formatting(x),
+               '&key=AIzaSyBcfnmk2l4u4kDwz3Uq-xlOB_Z9l4OZZTE',
+               sep = '')
+
+  resp <- httr::GET(url)
+  parsed <- jsonlite::fromJSON(httr::content(resp, "text"), simplifyVector = FALSE)
+
 
   structure(
     list(
@@ -52,27 +43,36 @@ print.googlegeo_api <- function(x) {
   str(x$content)
 }
 
+
+#'(Reverse) Geocoding of an address (coordinates).
+#'
+#'This function returns the result of (reverse) geocoding. (Reverse) Geocoding
+#'describes the process of finding the coordinates to a given address
+#'(the address which belongs to given coordinates).
+#'
+#'@param x Object of class \code{googlegeo_api}.
+#'
+#'@examples
+#'x <- adrs('Linköping Universitetet, Linköping')
+#'y <- googlegeo_api(x)
+#'geocode(y)
+#'
 #'@export
 geocode <- function(x) UseMethod('geocode', x)
 
 #'@export
 geocode.googlegeo_api <- function(x) {
-  if(x$type == 'geo') {
-    cat('Coordinates of the address:\n')
-    cat('----\n')
-    cat('Latitude:', x$content$results[[1]]$geometry$location$lat,
-        '\nLongitude:', x$content$results[[1]]$geometry$location$lng,
-        sep = ' ')
+  if(x$type == 'geo' && x$content$status != 'ZERO_RESULTS') {
+    c(x$content$results[[1]]$geometry$location$lat,
+      x$content$results[[1]]$geometry$location$lng)
   }
 
-  else if (x$type == 'revgeo') {
-    cat('Address of the coordinates:\n')
-    cat('----\n')
-    cat(x$content$results[[1]]$formatted_address)
+  else if (x$type == 'rev_geo' && x$content$status != 'ZERO_RESULTS') {
+    c(x$content$results[[1]]$formatted_address)
   }
 
   else {
-    stop('Type not specified.')
+    stop('Address or coordinates were not found.')
   }
 
 }

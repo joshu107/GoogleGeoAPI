@@ -2,11 +2,26 @@
 % Please edit documentation in R/classCoord.R
 \name{coord}
 \alias{coord}
-\title{A S3 class to represent the coordinate for reverse geocoding}
+\title{A S3 class to represent the coordinate for a reverse geocoding request.}
 \usage{
 coord(lat, lng)
 }
+\arguments{
+\item{lat}{A real value}
+
+\item{lng}{A real value}
+}
 \description{
-A S3 class to represent the coordinate for reverse geocoding
+Creates an object of the class \code{coord}. The latitude and the longitude
+can only be specified within a specific range of real values. Please use
+\code{.} to seperate the decimal values.
+}
+\examples{
+x <- coord(50.483, -20.827)
+print(x)
+
+}
+\seealso{
+\href{https://developers.google.com/maps/documentation/geocoding/intro?hl=de}{Google Geo API Description}
 }
 

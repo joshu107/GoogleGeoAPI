@@ -2,21 +2,24 @@
 % Please edit documentation in R/classAddress.R
 \name{adrs}
 \alias{adrs}
-\title{A S3 class to represent the address for geocoding}
+\title{A S3 class to represent the address for a geocoding request.}
 \usage{
-adrs(street, housenumber, state, zip)
+adrs(a)
 }
 \arguments{
-\item{street}{A string}
-
-\item{housenumber}{A string}
-
-\item{state}{A string}
-
-\item{zip}{A string}
+\item{x}{A string}
 }
 \description{
-The S3 class address (\code{adrs}) is used to store the street, housenumber,
-zip code and the state of an \code{adrs} object.
+Creates an object of the class \code{adrs}. The \code{adrs} object contains a
+single string representing the address of a place.
+}
+\examples{
+x <- adrs('Linköpings Universitet, 58183 Linköping')
+print(x)
+
+}
+\seealso{
+\href{https://developers.google.com/maps/documentation/#'geocoding/
+intro?hl=de}{Google Geo API Description}
 }
 

@@ -1,8 +1,22 @@
-#'A S3 class to represent the coordinate for reverse geocoding
-
+#'A S3 class to represent the coordinate for a reverse geocoding request.
+#'
+#'Creates an object of the class \code{coord}. The latitude and the longitude
+#'can only be specified within a specific range of real values. Please use
+#'\code{.} to seperate the decimal values.
+#'
+#'@param lat A real value
+#'@param lng A real value
+#'
+#'@examples
+#'x <- coord(50.483, -20.827)
+#'print(x)
+#'
+#'@seealso \href{https://developers.google.com/maps/documentation/geocoding/intro?hl=de}{Google Geo API Description}
+#'
 #'@export
 
 coord <- function(lat, lng) {
+  'Function for creating objects of class coord.'
 
   #Check if arguments have the right format
   if(!any(is.double(lat), is.double(lng))) {
