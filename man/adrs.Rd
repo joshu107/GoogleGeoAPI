@@ -7,12 +7,18 @@
 adrs(a)
 }
 \arguments{
-\item{x}{A string}
+\item{x}{A string with address. Address should be specified in the format used
+by the national postal service of the country concerned.}
 }
 \description{
 Creates an object of the class \code{adrs}. The \code{adrs} object contains a
 single string representing the address of a place.
 }
+\section{Fields}{
+
+\describe{
+\item{\code{address}}{Address (string).}
+}}
 \examples{
 x <- adrs('Linköpings Universitet, 58183 Linköping')
 print(x)

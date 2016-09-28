@@ -2,7 +2,7 @@
 % Please edit documentation in R/classGoogleGeo.R
 \name{googlegeo_api}
 \alias{googlegeo_api}
-\title{Runs Google Geo API on \code{\link{adrs}} or \code{\link{coord}} object.}
+\title{Runs Google Geo API.}
 \usage{
 googlegeo_api(x)
 }
@@ -10,9 +10,11 @@ googlegeo_api(x)
 \item{x}{a \code{\link{adrs}} or \code{\link{coord}} object}
 }
 \value{
-JSON object returned by Google Geo API.
+\code{googlegeo_api} object that contains result returned by Google
+Geo API.
 }
 \description{
-Runs Google Geo API on \code{\link{adrs}} or \code{\link{coord}} object.
+This function runs Runs Google Geo API on \code{\link{adrs}} or
+\code{\link{coord}} object.
 }
 
