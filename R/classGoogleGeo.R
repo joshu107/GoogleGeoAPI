@@ -63,17 +63,34 @@ geocode <- function(x) UseMethod('geocode', x)
 #'@export
 geocode.googlegeo_api <- function(x) {
   if(x$type == 'geo' && x$content$status != 'ZERO_RESULTS') {
-    c(x$content$results[[1]]$geometry$location$lat,
-      x$content$results[[1]]$geometry$location$lng)
+    coords <- c(x$content$results[[1]]$geometry$location$lat,
+                x$content$results[[1]]$geometry$location$lng)
+    return(coord(coords[1], coords[2]))
   }
 
   else if (x$type == 'rev_geo' && x$content$status != 'ZERO_RESULTS') {
-    c(x$content$results[[1]]$formatted_address)
+    address <- adrs(c(x$content$results[[1]]$formatted_address))
+    return(address)
   }
 
   else {
     stop('Address or coordinates were not found.')
   }
+}
 
+#'@export
+geocode.adrs <- function(address) {
+  # Returns coord object.
+  #
+  # Args:
+  #   address: adrs object with address
+  #
+  # Returns:
+  #   A coord object processed via Google Geo API.
+  jsonObject <- googlegeo_api(address)
+
+  coordObject <- geocode(jsonObject)
+
+  return(coordObject)
 }
 
