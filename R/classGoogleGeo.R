@@ -54,8 +54,8 @@ print.googlegeo_api <- function(x) {
 #'
 #'@examples
 #'x <- adrs('Linköping Universitetet, Linköping')
-#'y <- googlegeo_api(x)
-#'geocode(y)
+#'geocode(x)
+#'
 #'
 #'@export
 geocode <- function(x) UseMethod('geocode', x)
