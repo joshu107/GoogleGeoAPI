@@ -4,8 +4,11 @@
 #'can only be specified within a specific range of real values. Please use
 #'\code{.} to seperate the decimal values.
 #'
-#'@param lat A real value
-#'@param lng A real value
+#'@param lat latitude (numeric)
+#'@param lng longitude (numeric)
+#'
+#'@field lat Latitude (numeric)
+#'@field lng Longitude (numeric)
 #'
 #'@examples
 #'x <- coord(50.483, -20.827)

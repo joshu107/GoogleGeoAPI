@@ -7,15 +7,22 @@
 coord(lat, lng)
 }
 \arguments{
-\item{lat}{A real value}
+\item{lat}{latitude (real value)}
 
-\item{lng}{A real value}
+\item{lng}{longitude (real value)}
 }
 \description{
 Creates an object of the class \code{coord}. The latitude and the longitude
 can only be specified within a specific range of real values. Please use
 \code{.} to seperate the decimal values.
 }
+\section{Fields}{
+
+\describe{
+\item{\code{lat}}{latitude (real value)}
+
+\item{\code{lng}}{longitude (real value)}
+}}
 \examples{
 x <- coord(50.483, -20.827)
 print(x)
