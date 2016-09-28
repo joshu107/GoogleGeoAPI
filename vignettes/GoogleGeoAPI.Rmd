@@ -1,6 +1,6 @@
 ---
 title: "How to use GoogleGeoAPI to retrieve adress information"
-author: "Sascha Schmalz"
+author: "Torrin Danner, Joshua Hudson, Sascha Schmalz, and Nikolajs Prihodko"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -9,23 +9,58 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+## GoogleGeoAPI package
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+This package is intendeed to be used for geocoding. Geocoding is converting addresses from the usual human-readable format to numerical geographic coordinates. For example, "Linköpings Universitet, 58183 Linköping" is converted to "58.40208 15.57901", which are lattitude and longitude of the specified address.
 
-## Vignette Info
+## Installation
+To install the package [devtools](https://cran.r-project.org/web/packages/devtools/index.html) should be present on your machine. If you are using [RStudio](https://www.rstudio.com/), you can just run the following command
+```{r, eval = FALSE}
+install.packages("devtools")
+```
+If you are using plain R or another development environment, please refere to the package documenation for information on how to install it.
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+After the installation of `deevtools`, we can simply run the following command in the RStudio console
+```{r, eval = FALSE}
+devtools::install_github(repo = "https://github.com/Rchieve/GoogleGeoAPI", 
+                         build_vignette = TRUE)
+```
 
-## Styles
+## Workflow
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+The workflow can be divided into a few steps
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+1. Load the package.
+2. Specify an adress.
+3. Call Google Geo API.
+4. Convert the output to geographic coordinates.
+
+### Load the package
+
+First, we want to load the packaged to have access to all the functions in it.
+```{r}
+library(GoogleGeoAPI)
+```
+
+### Specify address
+
+Second, we want to create an `adrs` object from the text format. For example, let us create the object for the Linköpings Universitet. Address should be specified as a string "in the format used by the national postal service of the country concerned". Moreover, we might want to avoid additional address elements. If something does not work, we should to refer to the Goole [FAQ](https://developers.google.com/maps/faq#geocoder_queryformat).
+
+```{r}
+liu <- adrs("Linköpings Universitet, 58183 Linköping")
+```
+
+To check whether we have passed the correct address, we might want print the object:
+```{r}
+print(liu)
+```
+
+### Geocode
+
+Third, we want to geocode this adress, i.e. that we want to convert it to geographical coordinates.
+```{r}
+
+```
 
 ## Figures
 
