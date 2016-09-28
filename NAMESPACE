@@ -2,6 +2,8 @@
 
 S3method(formatting,adrs)
 S3method(formatting,coord)
+S3method(geocode,adrs)
+S3method(geocode,coord)
 S3method(geocode,googlegeo_api)
 S3method(print,adrs)
 S3method(print,coord)

@@ -94,3 +94,21 @@ geocode.adrs <- function(address) {
   return(coordObject)
 }
 
+#'@export
+geocode.coord <- function(coordinates) {
+  # Returns coord object.
+  #
+  # Args:
+  #   address: adrs object with address
+  #
+  # Returns:
+  #   A coord object processed via Google Geo API.
+  jsonObject <- googlegeo_api(coordinates)
+
+  adrsObject <- geocode(jsonObject)
+
+  return(adrsObject)
+}
+
+
+
