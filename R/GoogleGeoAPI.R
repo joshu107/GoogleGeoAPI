@@ -8,7 +8,6 @@
 #' {\code{LinregClass}}:\itemize{
 #' \item{\code{\link{adrs}} returns an S3 class object of type \code{adrs}.}
 #' \item{\code{\link{coord}} returns an S3 class object of type \code{coord}.}
-#' \item{\code{\link{googlegeo_api}} returns an S3 class object of type \code{googlegeo_api}.}
 #' \item{\code{\link{geocode}} returns the result of (reverse) geocoding.}
 #' }
 #'
