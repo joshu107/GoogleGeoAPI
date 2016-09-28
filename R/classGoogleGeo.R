@@ -1,3 +1,9 @@
+#'Runs Google Geo API on \code{\link{adrs}} or \code{\link{coord}} object.
+#'
+#'@param x a \code{\link{adrs}} or \code{\link{coord}} object
+#'
+#'@return JSON object returned by Google Geo API.
+#'
 #'@export
 googlegeo_api <- function(x) {
 'Generates an object of the class googlegeo_api.'
