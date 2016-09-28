@@ -1,6 +1,6 @@
 ---
 title: "How to use GoogleGeoAPI to retrieve adress information"
-author: "Sascha Schmalz"
+author: "Torrin Danner, Joshua Hudson, Sascha Schmalz, and Nikolajs Prihodko"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -9,50 +9,97 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+## GoogleGeoAPI package
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+This package is intendeed to be used for geocoding and reverse geocoding. Geocoding is converting addresses from the usual human-readable format to numerical geographic coordinates. For example, "Linköpings Universitet, 58183 Linköping" is converted to "58.40208 15.57901", which are latitude and longitude of the specified address. The reverse geocoding is the reverse process.
 
-## Vignette Info
+## How to install and load
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+### Install 
 
-## Styles
+To install the package [devtools](https://cran.r-project.org/web/packages/devtools/index.html) should be present on your machine. If you are using [RStudio](https://www.rstudio.com/), you can just run the following command
+```{r, eval = FALSE}
+install.packages("devtools")
+```
+If you are using plain R or another development environment, please refer to the package documentation for information on how to install it.
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+After the installation of `deevtools`, we can simply run the following command in the RStudio console
+```{r, eval = FALSE}
+devtools::install_github(repo = "https://github.com/Rchieve/GoogleGeoAPI", 
+                         build_vignette = TRUE)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+### Load
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+After the installation is successful, we want to load the package using
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r}
+library(GoogleGeoAPI)
 ```
 
-Also a quote using `>`:
+or access function directly, using `GoogleGeoAPI::<function_name>`.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+
+## Workflow
+
+### Geocode
+
+First, we want to create an `adrs` object from the text format. For example, let us create the object for the Linköpings Universitet. Address should be specified as a string "in the format used by the national postal service of the country concerned". Moreover, we might want to avoid additional address elements. If something does not work, we should to refer to the Google [FAQ](https://developers.google.com/maps/faq#geocoder_queryformat).
+
+```{r}
+liuAdrs <- adrs("Linköpings Universitet, 58183 Linköping")
+```
+
+To check whether we have passed the correct address, we might want print the object:
+```{r}
+print(liuAdrs)
+```
+
+Second, we want to geocode this address, i.e. that we want to convert it to geographical coordinates. This is achieved via the `geocode` function
+```{r}
+liuGeocoded <- geocode(liuAdrs)
+```
+
+This returns a `coord` object.
+
+To print the coordinates type
+```{r}
+print(liuGeocoded)
+```
+
+Or use implicit printing, by running the name of the geocoded object in an R console./
+```{r, eval = FALSE}
+liuGeocoded
+```
+
+To access the latitude or longitude call the fields of the `coord` object:
+```{r}
+liuGeocoded$lat
+liuGeocoded$lon
+```
+
+### Reverse geocode
+
+We can also use reverse geocoding, i.e. obtain an address of the coordinates.
+
+First we create a `coord` object. Coordinates should be in decimal format.
+```{r}
+liuCoord <- coord(58.40208, 15.57901)
+```
+
+Then we reverse geocode, i.e. obtain a human-readable address from geographic coordinates, using the `geocode` function
+```{r}
+liuRGeocoded <- geocode(liuCoord)
+```
+
+This returns an `adrs` object. We can either print it
+```{r}
+print(liuRGeocoded)
+```
+
+Or access the address field
+```{r}
+liuRGeocoded$address
+```
+
+As we can see, the `geocode(geocode(adrs(<some_address>)))` might not be equal to `<some_address>`. This happens, because reverse geocoding might return a more precise address than was used for geocoding. In the example above it return the address of a particular building on the Linköpings Universitet campus.
