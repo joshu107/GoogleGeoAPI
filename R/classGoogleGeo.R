@@ -84,19 +84,29 @@ geocode <- function(x) UseMethod('geocode', x)
 #'geocode(googlegeo_api(y))
 #'@export
 geocode.googlegeo_api <- function(x) {
-  if(x$type == 'geo' && x$content$status != 'ZERO_RESULTS') {
+  if (x$content$status == 'INVALID_REQUEST') {
+    stop(paste(x$content$error_message))
+  }
+
+  else if (x$content$status == 'ZERO_RESULTS') {
+    stop('Address or coordinates were not found.')
+  }
+
+  else if(x$type == 'geo') {
     coords <- c(x$content$results[[1]]$geometry$location$lat,
                 x$content$results[[1]]$geometry$location$lng)
     return(coord(coords[1], coords[2]))
   }
 
-  else if (x$type == 'rev_geo' && x$content$status != 'ZERO_RESULTS') {
+  else if (x$type == 'rev_geo') {
     address <- adrs(c(x$content$results[[1]]$formatted_address))
     return(address)
   }
 
+
+
   else {
-    stop('Address or coordinates were not found.')
+    stop('Unknown error')
   }
 }
 
