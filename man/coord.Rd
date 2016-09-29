@@ -7,9 +7,9 @@
 coord(lat, lng)
 }
 \arguments{
-\item{lat}{latitude (real value)}
+\item{lat}{latitude (numeric)}
 
-\item{lng}{longitude (real value)}
+\item{lng}{longitude (numeric)}
 }
 \description{
 Creates an object of the class \code{coord}. The latitude and the longitude
@@ -19,9 +19,9 @@ can only be specified within a specific range of real values. Please use
 \section{Fields}{
 
 \describe{
-\item{\code{lat}}{latitude (real value)}
+\item{\code{lat}}{Latitude (numeric)}
 
-\item{\code{lng}}{longitude (real value)}
+\item{\code{lng}}{Longitude (numeric)}
 }}
 \examples{
 x <- coord(50.483, -20.827)
