@@ -9,7 +9,7 @@ Authors@R: as.person(c(
   ))
 Description: Converts textual adress to numerical coordinates using Google Geo API.
 Depends:
-    R (>= 3.2.3)
+    R (>= 3.3.1)
 License: GPLv3
 Encoding: UTF-8
 LazyData: true
